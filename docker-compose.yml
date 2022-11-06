@@ -1,100 +1,36 @@
 version: '3.9'
 services:
-  postgres-db:
-    image: postgres:12-alpine
-    restart: always
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
     environment:
-      POSTGRES_PASSWORD: 123456
-      POSTGRES_DB: micro-db
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
     ports:
-      - "5430:5432"
-    networks:
-      - hr-net
-    deploy:
-      resources:
-        limits:
-          memory: 1024M
-        reservations:
-          memory: 300M
+      - "22181:2181"
 
-  eureka-client:
-    build: 
-      context: ./hr-eureka
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    hostname: kafkaBeyond
+    container_name: kafkaBeyond
+    restart: on-failure
+    depends_on:
+      - zookeeper
     ports:
-      - "8761:8761"
-    depends_on:
-      - postgres-db
-    networks:
-      - hr-net
-    deploy:
-      resources:
-        limits:
-          memory: 500M
-        reservations:
-          memory: 100M
-
-  gateway-client:
-    build:
-      context: ./hr-gateway
-    ports:
-      - "8765:8765"
+      - "29092:29092"
+      - "9092:9092"
     environment:
-      BCRYPY_KEY: a448f299-0d21-4523-b334-525a1fc9b3ef
-      EUREKA_URL: http://eureka-client:8761/eureka
-    depends_on:
-      - eureka-client
-    networks:
-      - hr-net
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafkaOwlwee:9092,PLAINTEXT_HOST://localhost:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
     deploy:
       resources:
         limits:
-          memory: 500M
+          memory: 700M
         reservations:
           memory: 100M
-  
-  user-client:
-    build:
-      context: ./hr-user
-    environment:
-      POSTGRES_URI: jdbc:postgresql://postgres-db:5432/micro-db
-      POSTGRES_USERNAME: postgres
-      POSTGRES_PASSWORD: 123456
-      POSTGRES_SCHEMA: public
-      EUREKA_URL: http://eureka-client:8761/eureka
-    depends_on:
-      - gateway-client
-    networks:
-      - hr-net
-    deploy:
-      resources:
-        limits:
-          memory: 500M
-        reservations:
-          memory: 100M
-
-  oauth-client:
-    build:
-      context: ./hr-oauth
-    environment:
-      POSTGRES_URI: jdbc:postgresql://postgres-db:5432/micro-db
-      POSTGRES_USERNAME: postgres
-      POSTGRES_PASSWORD: 123456
-      POSTGRES_SCHEMA: public
-      BCRYPY_KEY: a448f299-0d21-4523-b334-525a1fc9b3ef
-      EUREKA_URL: http://eureka-client:8761/eureka
-      OAUTH_PASSWORDL: d0f789a6-9e3a-4114-bd42-f1a48c5e28db
-      OAUTH_NAME: KauaApp
-    depends_on:
-      - gateway-client
-    networks:
-      - hr-net
-    deploy:
-      resources:
-        limits:
-          memory: 500M
-        reservations:
-          memory: 100M
-
-networks:
-  hr-net:
-    driver: bridge
