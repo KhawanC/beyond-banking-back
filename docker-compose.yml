@@ -1,0 +1,100 @@
+version: '3.9'
+services:
+  postgres-db:
+    image: postgres:12-alpine
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_DB: micro-db
+    ports:
+      - "5430:5432"
+    networks:
+      - hr-net
+    deploy:
+      resources:
+        limits:
+          memory: 1024M
+        reservations:
+          memory: 300M
+
+  eureka-client:
+    build: 
+      context: ./hr-eureka
+    ports:
+      - "8761:8761"
+    depends_on:
+      - postgres-db
+    networks:
+      - hr-net
+    deploy:
+      resources:
+        limits:
+          memory: 500M
+        reservations:
+          memory: 100M
+
+  gateway-client:
+    build:
+      context: ./hr-gateway
+    ports:
+      - "8765:8765"
+    environment:
+      BCRYPY_KEY: a448f299-0d21-4523-b334-525a1fc9b3ef
+      EUREKA_URL: http://eureka-client:8761/eureka
+    depends_on:
+      - eureka-client
+    networks:
+      - hr-net
+    deploy:
+      resources:
+        limits:
+          memory: 500M
+        reservations:
+          memory: 100M
+  
+  user-client:
+    build:
+      context: ./hr-user
+    environment:
+      POSTGRES_URI: jdbc:postgresql://postgres-db:5432/micro-db
+      POSTGRES_USERNAME: postgres
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_SCHEMA: public
+      EUREKA_URL: http://eureka-client:8761/eureka
+    depends_on:
+      - gateway-client
+    networks:
+      - hr-net
+    deploy:
+      resources:
+        limits:
+          memory: 500M
+        reservations:
+          memory: 100M
+
+  oauth-client:
+    build:
+      context: ./hr-oauth
+    environment:
+      POSTGRES_URI: jdbc:postgresql://postgres-db:5432/micro-db
+      POSTGRES_USERNAME: postgres
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_SCHEMA: public
+      BCRYPY_KEY: a448f299-0d21-4523-b334-525a1fc9b3ef
+      EUREKA_URL: http://eureka-client:8761/eureka
+      OAUTH_PASSWORDL: d0f789a6-9e3a-4114-bd42-f1a48c5e28db
+      OAUTH_NAME: KauaApp
+    depends_on:
+      - gateway-client
+    networks:
+      - hr-net
+    deploy:
+      resources:
+        limits:
+          memory: 500M
+        reservations:
+          memory: 100M
+
+networks:
+  hr-net:
+    driver: bridge
