@@ -1,5 +1,5 @@
 package com.kaua.hruser.enums;
 
 public enum RedeEnsinoEnum {
-	ESTADUO_SE, MUNICIPAL, PARTICULAR, FEDERAL, ESTADUAL
+	ESTADUAL_SE, MUNICIPAL, PARTICULAR, FEDERAL, ESTADUAL
 }

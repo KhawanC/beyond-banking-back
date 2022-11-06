@@ -1,11 +1,11 @@
 package com.kaua.hruser.converter;
 
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import com.kaua.hruser.enums.RoleEnum;
 import com.kaua.hruser.model.Role;
 
-@Service
+@Component
 public class RoleConverter {
 
 	public Role EnumToModel(RoleEnum roleName) {

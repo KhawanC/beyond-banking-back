@@ -19,9 +19,12 @@ public class Estudante {
 	@Column(name = "id")
 	private Long id;
 
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_usuario")
 	private Usuario usuario;
+
+	@Column(name = "pontos_atividades")
+	private Integer pontosAtividades;
 
 	@Column(name = "is_transferencia_autorizado")
 	private Boolean isTranferenciaAutorizada;
@@ -29,9 +32,10 @@ public class Estudante {
 	public Estudante() {
 	}
 
-	public Estudante(Long id, Usuario usuario, Boolean isTranferenciaAutorizada) {
+	public Estudante(Long id, Usuario usuario, Integer pontosAtividades, Boolean isTranferenciaAutorizada) {
 		this.id = id;
 		this.usuario = usuario;
+		this.pontosAtividades = pontosAtividades;
 		this.isTranferenciaAutorizada = isTranferenciaAutorizada;
 	}
 
@@ -57,6 +61,14 @@ public class Estudante {
 
 	public void setIsTranferenciaAutorizada(Boolean isTranferenciaAutorizada) {
 		this.isTranferenciaAutorizada = isTranferenciaAutorizada;
+	}
+
+	public Integer getPontosAtividades() {
+		return pontosAtividades;
+	}
+
+	public void setPontosAtividades(Integer pontosAtividades) {
+		this.pontosAtividades = pontosAtividades;
 	}
 
 }

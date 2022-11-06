@@ -11,21 +11,20 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.kaua.hruser.form.ResponsavelForm;
+import com.kaua.hruser.form.ResponsavelEstudanteForm;
 import com.kaua.hruser.model.Usuario;
 import com.kaua.hruser.service.UsuarioService;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/usuario")
 public class UsuarioResource {
 
 	@Autowired
 	UsuarioService service;
 	
-	@GetMapping("/all")
+	@GetMapping()
 	public ResponseEntity<List<Usuario>> findAll() {
 		return new ResponseEntity<>(service.findAll(), HttpStatus.OK);
 	}
@@ -35,14 +34,19 @@ public class UsuarioResource {
 		return new ResponseEntity<>(service.findById(id), HttpStatus.OK);
 	}
 	
-	@GetMapping(value = "/byEmail")
-	public ResponseEntity<Usuario> findByEmail(@RequestParam String email) {
+	@GetMapping(value = "/byEmail/{email}")
+	public ResponseEntity<Usuario> findByEmail(@PathVariable String email) {
 		return new ResponseEntity<>(service.findByEmail(email), HttpStatus.OK);
 	}
 	
 	@PostMapping("/responsavel")
-	public ResponseEntity<Usuario> saveUsuario(@RequestBody ResponsavelForm form) throws Exception {
+	public ResponseEntity<Usuario> saveResponsavel(@RequestBody ResponsavelEstudanteForm form) throws Exception {
 		return new ResponseEntity<>(service.saveResponsavel(form), HttpStatus.OK);
+	}
+	
+	@PostMapping("/estudante")
+	public ResponseEntity<Usuario> saveEstudante(@RequestBody ResponsavelEstudanteForm form) throws Exception {
+		return new ResponseEntity<>(service.saveEstudante(form), HttpStatus.OK);
 	}
 	
 	@DeleteMapping("{id}")

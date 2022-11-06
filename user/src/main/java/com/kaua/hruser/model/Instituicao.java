@@ -15,14 +15,14 @@ import javax.persistence.Table;
 import com.kaua.hruser.enums.RedeEnsinoEnum;
 
 @Entity
-@Table(name = "instituicao_ensino")
-public class InstituicaoEnsino {
+@Table(name = "instituicao")
+public class Instituicao {
 
 	@Id
-	@Column(name = "codigo_mec")
+	@Column(name = "codigo_mec", unique = true)
 	private Long codigoMec;
 
-	@Column(name = "id")
+	@Column(name = "nome", unique = true)
 	private String nome;
 
 	@Column(name = "municipio")
@@ -31,17 +31,17 @@ public class InstituicaoEnsino {
 	@Column(name = "rede_ensino")
 	private RedeEnsinoEnum redeEnsino;
 
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_contato")
 	private Contato contato;
 
-	@OneToMany(mappedBy = "instituicaoEnsino" ,cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "instituicaoEnsino", cascade = CascadeType.ALL)
 	private Set<Matricula> listaMatriculas;
 
-	public InstituicaoEnsino() {
+	public Instituicao() {
 	}
 
-	public InstituicaoEnsino(Long codigoMec, String nome, String municipio, RedeEnsinoEnum redeEnsino, Contato contato,
+	public Instituicao(Long codigoMec, String nome, String municipio, RedeEnsinoEnum redeEnsino, Contato contato,
 			Set<Matricula> listaMatriculas) {
 		this.codigoMec = codigoMec;
 		this.nome = nome;

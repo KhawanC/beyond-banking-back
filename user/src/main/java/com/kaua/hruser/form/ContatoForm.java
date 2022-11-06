@@ -1,54 +1,38 @@
-package com.kaua.hruser.model;
+package com.kaua.hruser.form;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
-@Entity
-@Table(name = "contato")
-public class Contato {
+public class ContatoForm {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
-	private Long id;
-
-	@Column(name = "cep")
+	@NotNull
 	private Integer cep;
 
-	@Column(name = "bairro")
+	@NotNull
 	private String bairro;
 
-	@Column(name = "cidade")
+	@NotNull
 	private String cidade;
 
-	@Column(name = "estado")
+	@NotNull
 	private String estado;
 
-	@Column(name = "logradouro")
 	private String logradouro;
 
-	@Column(name = "numero")
+	@NotNull
 	private Integer numero;
 
-	@Column(name = "complemento")
 	private String complemento;
 
-	@Column(name = "celular")
 	private Long celular;
 
-	@Column(name = "telefone")
 	private Long telefone;
 
-	public Contato() {
+	public ContatoForm() {
 	}
 
-	public Contato(Long id, Integer cep, String bairro, String cidade, String estado, String logradouro, Integer numero,
-			String complemento, Long celular, Long telefone) {
-		this.id = id;
+	public ContatoForm(@NotNull Integer cep, @NotNull String bairro, @NotNull String cidade, @NotNull String estado,
+			String logradouro, @NotNull Integer numero, String complemento, Long celular, Long telefone) {
+		super();
 		this.cep = cep;
 		this.bairro = bairro;
 		this.cidade = cidade;
@@ -58,14 +42,6 @@ public class Contato {
 		this.complemento = complemento;
 		this.celular = celular;
 		this.telefone = telefone;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public Integer getCep() {

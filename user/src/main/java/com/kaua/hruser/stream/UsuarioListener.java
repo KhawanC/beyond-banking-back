@@ -20,7 +20,7 @@ public class UsuarioListener {
 	private static final Logger log = LoggerFactory.getLogger(UsuarioListener.class);
 
 	@KafkaListener(topics = { "usuario.save" }, groupId = "bynd-banking", containerFactory = "kafkaListenerContainerFactory")
-	public void UsuarioModelConsumer(ConsumerRecord<String, Usuario> message) throws Exception {
+	public void UsuarioSaveConsumer(ConsumerRecord<String, Usuario> message) throws Exception {
 		try {
 			ObjectMapper mapper = new ObjectMapper();
 			Usuario form = mapper.convertValue(message.value(), Usuario.class);
@@ -29,5 +29,29 @@ public class UsuarioListener {
 			log.error(e.getMessage());
 		}
 
+	}
+	
+	@KafkaListener(topics = { "usuario.update" }, groupId = "bynd-banking", containerFactory = "kafkaListenerContainerFactory")
+	public void UsuarioUpdateConsumer(ConsumerRecord<String, Usuario> message) throws Exception {
+		try {
+			ObjectMapper mapper = new ObjectMapper();
+			Usuario form = mapper.convertValue(message.value(), Usuario.class);
+			service.update(form);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
+		
+	}
+	
+	@KafkaListener(topics = { "usuario.delete" }, groupId = "bynd-banking", containerFactory = "kafkaListenerContainerFactory")
+	public void UsuarioDeleteConsumer(ConsumerRecord<String, Long> message) throws Exception {
+		try {
+			ObjectMapper mapper = new ObjectMapper();
+			Long id = mapper.convertValue(message.value(), Long.class);
+			service.delete(id);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
+		
 	}
 }

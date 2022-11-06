@@ -20,7 +20,7 @@ public class ContatoListener {
 	private static final Logger log = LoggerFactory.getLogger(ContatoListener.class);
 
 	@KafkaListener(topics = { "contato.save" }, groupId = "bynd-banking", containerFactory = "kafkaListenerContainerFactory")
-	public void UsuarioModelConsumer(ConsumerRecord<String, Contato> message) throws Exception {
+	public void ContatoSaveConsumer(ConsumerRecord<String, Contato> message) throws Exception {
 		try {
 			ObjectMapper mapper = new ObjectMapper();
 			Contato form = mapper.convertValue(message.value(), Contato.class);
@@ -29,5 +29,29 @@ public class ContatoListener {
 			log.error(e.getMessage());
 		}
 
+	}
+	
+	@KafkaListener(topics = { "contato.update" }, groupId = "bynd-banking", containerFactory = "kafkaListenerContainerFactory")
+	public void ContatoUpdateConsumer(ConsumerRecord<String, Contato> message) throws Exception {
+		try {
+			ObjectMapper mapper = new ObjectMapper();
+			Contato form = mapper.convertValue(message.value(), Contato.class);
+			service.update(form);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
+		
+	}
+	
+	@KafkaListener(topics = { "contato.save" }, groupId = "bynd-banking", containerFactory = "kafkaListenerContainerFactory")
+	public void ContatoDeleteConsumer(ConsumerRecord<String, Long> message) throws Exception {
+		try {
+			ObjectMapper mapper = new ObjectMapper();
+			Long id = mapper.convertValue(message.value(), Long.class);
+			service.delete(id);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
+		
 	}
 }

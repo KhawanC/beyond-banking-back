@@ -24,7 +24,7 @@ public class RoleResource {
 	@Autowired
 	RoleService service;
 	
-	@GetMapping("/all")
+	@GetMapping()
 	public ResponseEntity<List<Role>> findAll() {
 		return new ResponseEntity<>(service.findAll(), HttpStatus.OK);
 	}

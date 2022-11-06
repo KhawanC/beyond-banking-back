@@ -27,13 +27,13 @@ public class Usuario {
 	@Column(name = "id")
 	private Long id;
 
-	@Column(name = "nome")
+	@Column(name = "nome", unique = true)
 	private String nomeCompleto;
 
-	@Column(name = "cpf")
+	@Column(name = "cpf", unique = true)
 	private Long cpf;
 
-	@Column(name = "email")
+	@Column(name = "email", unique = true)
 	private String email;
 
 	@Column(name = "senha")
@@ -45,11 +45,11 @@ public class Usuario {
 	@Column(name = "saldo")
 	private BigDecimal saldo;
 
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_contato")
 	private Contato contato;
 
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinTable(name = "usuario_role", joinColumns = @JoinColumn(name = "id_usuario"), inverseJoinColumns = @JoinColumn(name = "id_role"))
 	private Set<Role> roles = new HashSet<>();
 

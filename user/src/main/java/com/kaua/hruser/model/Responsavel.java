@@ -24,11 +24,11 @@ public class Responsavel {
 	@Column(name = "id")
 	private Long id;
 
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_usuario")
 	private Usuario usuario;
 
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinTable(name = "responsavel_estudante", joinColumns = @JoinColumn(name = "id_responsavel"), inverseJoinColumns = @JoinColumn(name = "id_estudante"))
 	private Set<Estudante> listaDependentes;
 

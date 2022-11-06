@@ -55,8 +55,22 @@ public class ContatoService {
 		return contato;
 	}
 	
-	public void save(Contato contato) {
-		repository.save(contato);
+	public Contato updateContato(Contato contato) throws Exception {
+		Contato verifiedContato = this.findById(contato.getId());
+		publisher.updateContato(contato);
+		
+		return contato;
+	}
+	
+	public Contato deleteContato(Long id) throws Exception {
+		Contato verifiedContato = this.findById(id);
+		publisher.deleteContato(id);
+		
+		return verifiedContato;
+	}
+	
+	public Contato save(Contato contato) {
+		return repository.save(contato);
 	}
 	
 	public void update(Contato contato) {

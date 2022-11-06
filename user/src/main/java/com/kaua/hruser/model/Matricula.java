@@ -8,28 +8,31 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "matricula")
 public class Matricula {
 
 	@Id
-	@Column(name = "id")
+	@Column(name = "idMatricula")
 	private Long idMatricula;
 
-	@Column(name = "nome_aluno")
+	@Column(name = "nome_aluno", unique = true)
 	private String nomeAluno;
 
-	@Column(name = "cpf")
+	@Column(name = "cpf", unique = true)
 	private Long cpf;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonIgnore
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_instituicao_ensino")
-	private InstituicaoEnsino instituicaoEnsino;
+	private Instituicao instituicaoEnsino;
 
 	public Matricula() {
 	}
 
-	public Matricula(Long idMatricula, String nomeAluno, Long cpf, InstituicaoEnsino instituicaoEnsino) {
+	public Matricula(Long idMatricula, String nomeAluno, Long cpf, Instituicao instituicaoEnsino) {
 		this.idMatricula = idMatricula;
 		this.nomeAluno = nomeAluno;
 		this.cpf = cpf;
@@ -60,11 +63,11 @@ public class Matricula {
 		this.cpf = cpf;
 	}
 
-	public InstituicaoEnsino getInstituicaoEnsino() {
+	public Instituicao getInstituicaoEnsino() {
 		return instituicaoEnsino;
 	}
 
-	public void setInstituicaoEnsino(InstituicaoEnsino instituicaoEnsino) {
+	public void setInstituicaoEnsino(Instituicao instituicaoEnsino) {
 		this.instituicaoEnsino = instituicaoEnsino;
 	}
 
