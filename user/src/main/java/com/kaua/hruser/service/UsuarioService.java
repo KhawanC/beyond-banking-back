@@ -92,6 +92,14 @@ public class UsuarioService {
 
 		return usuario;
 	}
+	
+	public Usuario updateUsuario(Usuario usuario) throws Exception {
+		Usuario verifiedUsuario = this.findById(usuario.getId());
+		
+		publisher.updateUsuario(usuario);
+		
+		return usuario;
+	}
 
 	public void deleteById(Long id) {
 		repository.deleteById(id);
@@ -101,8 +109,8 @@ public class UsuarioService {
 		return repository.save(usuario);
 	}
 
-	public void update(Usuario usuario) {
-		repository.save(usuario);
+	public Usuario update(Usuario usuario) {
+		return repository.save(usuario);
 	}
 
 	public void delete(Long id) {

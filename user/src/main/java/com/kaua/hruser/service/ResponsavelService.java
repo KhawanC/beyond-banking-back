@@ -61,6 +61,7 @@ public class ResponsavelService {
 		return responsavel;
 	}
 	
+	//TODO bug - o método está deletando as permissões e o contato
 	public Set<Estudante> adicionarDependente(DependenteForm form) throws Exception {
 		Responsavel responsavel = this.findByCpf(form.getCpfResponsavel());
 		Set<Estudante> listaEstudante = new HashSet<>();

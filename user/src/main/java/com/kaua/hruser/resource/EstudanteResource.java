@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kaua.hruser.model.Estudante;
@@ -32,10 +33,20 @@ public class EstudanteResource {
 	public ResponseEntity<Estudante> findById(@PathVariable Long id) {
 		return new ResponseEntity<>(service.findById(id), HttpStatus.OK);
 	}
+	
+	@GetMapping("/byCpf/{cpf}")
+	public ResponseEntity<Estudante> findByCpf(@PathVariable Long cpf) {
+		return new ResponseEntity<>(service.findByCpf(cpf), HttpStatus.OK);
+	}
 
 	@PutMapping()
-	public ResponseEntity<Estudante> updateInstituicao(@RequestBody Estudante estudante) throws Exception {
+	public ResponseEntity<Estudante> updateEstudante(@RequestBody Estudante estudante) throws Exception {
 		return new ResponseEntity<>(service.updateEstudante(estudante), HttpStatus.OK);
+	}
+	
+	@PutMapping("/adicionarCreditos")
+	public ResponseEntity<Estudante> updateCreditos(@RequestParam(name = "cpf") Long cpf, @RequestParam(name = "qtdCreditos") Integer qtdCreditos) throws Exception {
+		return new ResponseEntity<>(service.updateCreditos(cpf, qtdCreditos), HttpStatus.OK);
 	}
 
 	@DeleteMapping("{id}")

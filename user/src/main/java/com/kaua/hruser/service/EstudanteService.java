@@ -59,6 +59,15 @@ public class EstudanteService {
 		
 		return estudante;
 	}
+
+	public Estudante updateCreditos(Long cpf, Integer qtdCreditos) throws Exception {
+		Estudante estudante = this.findByCpf(cpf);
+		
+		estudante.setPontosAtividades(estudante.getPontosAtividades() + qtdCreditos);
+
+		
+		return this.update(estudante);
+	}
 	
 	public Estudante deleteEstudante(Long id) throws Exception {
 		Estudante estudante = this.findById(id);
@@ -68,12 +77,12 @@ public class EstudanteService {
 		return estudante;
 	}
 	
-	public void save(Estudante estudante) {
-		repository.save(estudante);
+	public Estudante save(Estudante estudante) {
+		return repository.save(estudante);
 	}
 	
-	public void update(Estudante estudante) {
-		repository.save(estudante);
+	public Estudante update(Estudante estudante) {
+		return repository.save(estudante);
 	}
 	
 	public void delete(Long id) {

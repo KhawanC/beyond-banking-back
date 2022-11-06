@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -39,6 +40,11 @@ public class UsuarioResource {
 		return new ResponseEntity<>(service.findByEmail(email), HttpStatus.OK);
 	}
 	
+	@GetMapping(value = "/byCpf/{cpf}")
+	public ResponseEntity<Usuario> findByCpf(@PathVariable Long cpf) {
+		return new ResponseEntity<>(service.findByCpf(cpf), HttpStatus.OK);
+	}
+	
 	@PostMapping("/responsavel")
 	public ResponseEntity<Usuario> saveResponsavel(@RequestBody ResponsavelEstudanteForm form) throws Exception {
 		return new ResponseEntity<>(service.saveResponsavel(form), HttpStatus.OK);
@@ -47,6 +53,11 @@ public class UsuarioResource {
 	@PostMapping("/estudante")
 	public ResponseEntity<Usuario> saveEstudante(@RequestBody ResponsavelEstudanteForm form) throws Exception {
 		return new ResponseEntity<>(service.saveEstudante(form), HttpStatus.OK);
+	}
+	
+	@PutMapping()
+	public ResponseEntity<Usuario> updateUsuario(@RequestBody Usuario usuario) throws Exception {
+		return new ResponseEntity<>(service.update(usuario), HttpStatus.OK);
 	}
 	
 	@DeleteMapping("{id}")
