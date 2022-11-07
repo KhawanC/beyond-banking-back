@@ -74,9 +74,9 @@ Por outro lado, o gateway permite que as APIs sejam chamados apelas pelo seu **N
 **NÃO** é possível acessar a interface do Open API de outras APIs pelo gateway, somente os endpoint
 
 Ao acessar o Open API vocÊ irá se deparar com:
-![Exemplo Open API](https://imgur.com/1vMsmtv)
+![Exemplo Open API](https://imgur.com/1vMsmtv.png)
 
-![Exemplo 2 Open API](https://imgur.com/ePaRucD)
+![Exemplo 2 Open API](https://imgur.com/ePaRucD.png)
 
 
 # 4. Jornadas
