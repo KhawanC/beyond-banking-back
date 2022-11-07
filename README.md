@@ -8,13 +8,15 @@ Após a instalação de ambos também será necessário instalar o [PostgreSQL](
 
 Com o Postgres instalado é necessário criar o seguinte banco de dados com os seguintes schemas:
 Nome banco de dados:
+
 - beyond-banking
 
 Nome schemas:
+
 - usuario
 - servico
 
-O próximo passo é iniciar o [Apache Kafka](https://kafka.apache.org). Por sorte não precisamos baixar este, para inici-alo basta clonar esté repositório com:
+O próximo passo é iniciar o [Apache Kafka](https://kafka.apache.org). Por sorte não precisamos baixar este, para inicia-lo basta clonar esté repositório com:
 
 ```console
 git clone https://github.com/KhawanC/beyond-banking-back
