@@ -51,8 +51,11 @@ Caso você possua uma IDE, apenas executea por ela.
 Atente-se de que a ordem para iniciar as APIs são:
 
 1 - eureka
+
 2 - gateway
+
 3 - servicos
+
 3 - usuario
 
 O Eureka precisa de alguns segundos para ser levantando, caso alguma outra API caia pode ser por conta do tempo que o Eureka demora para carregar.
@@ -67,8 +70,11 @@ Nome das APIs (será utilizado pelo gateway):
 Todas as APIs possuem o Open Api (Interface para documentação) instalados. Para consultar a documentação de cada acesse:
 
 1 - Eureka API: http://localhost:8761 (Possui interface)
+
 2 - Gateway API: http://localhost:8765/{nome_da_api}/{end_point} (Não possui interface)
+
 3 - Usuario API: http://localhost:{porta_api}/{end_point} (Possui interface)
+
 4 - Servico API: http://localhost:{porta_api}/{end_point} (Possui interface)
 
 As portas para as APIs de Usuario e Servico são **ALEATORIAS**, portando, você deve consultalas ou nos logs da aplicação ou pela sua IDE.
